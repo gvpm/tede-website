@@ -98,6 +98,19 @@
         #top-menu-buttons button:active {
             background: #555;
         }
+        #close-overlay {
+            background: #c00;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 1.2em;
+            align-self: flex-end;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
         .content {
             max-width: 900px;
             margin: 40px auto 0 auto;
@@ -138,9 +151,10 @@
                 <button class="nav-btn" data-target="menu3">Menu 3</button>
                 <button class="nav-btn" data-target="menu4">Menu 4</button>
                 <button class="nav-btn" data-target="menu5">Menu 5</button>
+                <button id="close-overlay" aria-label="Close Overlay">✕</button>
             </div>
         </div>
-        <div class="content">
+        <div class="content" id="main-content">
             <section id="menu1-section" class="menu-section">
                 <h2>Menu 1</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi vel consectetur euismod, nisl nisi consectetur nisi, euismod euismod nisi nisi euismod nisi. Mauris non tempor quam, et lacinia sapien. Mauris accumsan eros eget libero posuere vulputate. Etiam elit elit, elementum sed varius at, adipiscing vitae est. Sed nec felis pellentesque, lacinia dui sed, ultricies sapien. Pellentesque orci lectus, consectetur vel posuere posuere, rutrum eu ipsum. Aliquam eget odio sed ligula iaculis consequat at eget orci. Mauris molestie sit amet metus mattis varius. Donec sit amet ligula eget nisi sodales egestas. Aliquam interdum dolor aliquet dolor sollicitudin fermentum.</p>
@@ -377,9 +391,18 @@
         let topMenuOpen = false;
         const topMenuToggle = document.getElementById('top-menu-toggle');
         const topMenuButtons = document.getElementById('top-menu-buttons');
+        const mainContent = document.getElementById('main-content');
+        const closeOverlayBtn = document.getElementById('close-overlay');
         topMenuToggle.addEventListener('click', () => {
             topMenuOpen = !topMenuOpen;
-            topMenuButtons.style.display = topMenuOpen ? 'flex' : 'none';
+            menuShow(topMenuOpen);
+        });
+        function menuShow(show) {
+            topMenuButtons.style.display = show ? 'flex' : 'none';
+        }
+        closeOverlayBtn.addEventListener('click', () => {
+            mainContent.style.display = 'none';
+            menuShow(false);
         });
         document.querySelectorAll('.nav-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -388,10 +411,10 @@
                 const section = document.getElementById(target + '-section');
                 if (section) {
                     section.style.display = '';
-                    // Always scroll to top of page, not to top of overlay
                     window.scrollTo({top: 0, behavior: 'smooth'});
+                    mainContent.style.display = '';
                     topMenuOpen = false;
-                    topMenuButtons.style.display = 'none';
+                    menuShow(false);
                 }
             });
         });
