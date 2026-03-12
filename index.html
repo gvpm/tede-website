@@ -100,7 +100,7 @@
         }
         .content {
             max-width: 900px;
-            margin: 120px auto 0 auto;
+            margin: 40px auto 0 auto;
             background: rgba(34,34,34,0.85);
             color: #fff;
             border-radius: 12px;
@@ -115,7 +115,7 @@
             .content {
                 width: 92vw;
                 padding: 20px 8px;
-                margin: 40px auto 0 auto;
+                margin: 16px auto 0 auto;
                 max-width: 98vw;
             }
         }
@@ -388,7 +388,8 @@
                 const section = document.getElementById(target + '-section');
                 if (section) {
                     section.style.display = '';
-                    section.scrollIntoView({behavior: 'smooth'});
+                    // Always scroll to top of page, not to top of overlay
+                    window.scrollTo({top: 0, behavior: 'smooth'});
                     topMenuOpen = false;
                     topMenuButtons.style.display = 'none';
                 }
