@@ -198,6 +198,7 @@
             <button id="btn-speedup" aria-label="Increase Speed">+</button>
             <button id="btn-speeddown" aria-label="Decrease Speed">-</button>
             <button id="btn-random" aria-label="Randomize Grid">Random</button>
+            <button id="btn-refresh" aria-label="Refresh Page">Refresh</button>
         </div>
     </div>
     <script>
@@ -385,6 +386,9 @@
         document.getElementById('btn-random').addEventListener('click', () => {
             randomizeGrid();
         });
+        document.getElementById('btn-refresh').addEventListener('click', () => {
+            location.reload();
+        });
 
         function updatePlayPauseBtn() {
             const btn = document.getElementById('btn-play');
@@ -442,42 +446,9 @@
             drawGrid();
         });
 
-        // Standard pull-to-refresh for mobile
-        let touchStartY = null;
-        let pullRefreshTriggered = false;
-        let pullRefreshIndicator = document.getElementById('pull-refresh-indicator');
-        let pulling = false;
-        window.addEventListener('touchstart', function(e) {
-            if (document.body.scrollTop === 0 || document.documentElement.scrollTop === 0) {
-                touchStartY = e.touches[0].clientY;
-                pullRefreshTriggered = false;
-                pulling = true;
-            }
-        });
-        window.addEventListener('touchmove', function(e) {
-            if (touchStartY !== null && pulling) {
-                const currentY = e.touches[0].clientY;
-                const pullDistance = currentY - touchStartY;
-                if (pullDistance > 40) {
-                    pullRefreshIndicator.style.display = 'flex';
-                } else {
-                    pullRefreshIndicator.style.display = 'none';
-                }
-            }
-        });
-        window.addEventListener('touchend', function(e) {
-            if (touchStartY !== null && pulling) {
-                const endY = e.changedTouches[0].clientY;
-                const pullDistance = endY - touchStartY;
-                pullRefreshIndicator.style.display = 'none';
-                if (pullDistance > 60 && !pullRefreshTriggered) {
-                    pullRefreshTriggered = true;
-                    location.reload();
-                }
-            }
-            touchStartY = null;
-            pullRefreshTriggered = false;
-            pulling = false;
+        // Remove pull-to-refresh logic and add refresh button
+        document.getElementById('btn-refresh').addEventListener('click', () => {
+            location.reload();
         });
     </script>
 </body>
