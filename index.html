@@ -442,9 +442,10 @@
             drawGrid();
         });
 
-        // Pull-to-refresh for mobile: reload page when user scrolls up past top
+        // Standard pull-to-refresh for mobile
         let touchStartY = null;
         let pullRefreshTriggered = false;
+        let pullRefreshIndicator = document.getElementById('pull-refresh-indicator');
         window.addEventListener('touchstart', function(e) {
             if (window.scrollY === 0) {
                 touchStartY = e.touches[0].clientY;
@@ -454,13 +455,24 @@
         window.addEventListener('touchmove', function(e) {
             if (touchStartY !== null && window.scrollY === 0) {
                 const currentY = e.touches[0].clientY;
-                if (currentY - touchStartY > 60 && !pullRefreshTriggered) {
+                const pullDistance = currentY - touchStartY;
+                if (pullDistance > 40) {
+                    pullRefreshIndicator.style.display = 'flex';
+                } else {
+                    pullRefreshIndicator.style.display = 'none';
+                }
+            }
+        });
+        window.addEventListener('touchend', function(e) {
+            if (touchStartY !== null && window.scrollY === 0) {
+                const endY = e.changedTouches[0].clientY;
+                const pullDistance = endY - touchStartY;
+                pullRefreshIndicator.style.display = 'none';
+                if (pullDistance > 60 && !pullRefreshTriggered) {
                     pullRefreshTriggered = true;
                     location.reload();
                 }
             }
-        });
-        window.addEventListener('touchend', function() {
             touchStartY = null;
             pullRefreshTriggered = false;
         });
