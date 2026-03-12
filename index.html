@@ -47,9 +47,10 @@
         let speed = 100; // ms
         let interval = null;
 
+        let inverted = false;
         function drawGrid() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = '#888';
+            ctx.strokeStyle = inverted ? '#888' : '#888';
             ctx.lineWidth = 1;
             for (let i = 0; i <= rows; i++) {
                 ctx.beginPath();
@@ -66,9 +67,9 @@
             for (let i = 0; i < rows; i++) {
                 for (let j = 0; j < cols; j++) {
                     if (grid[i][j]) {
-                        ctx.fillStyle = '#fff';
+                        ctx.fillStyle = inverted ? '#000' : '#fff';
                     } else {
-                        ctx.fillStyle = '#000';
+                        ctx.fillStyle = inverted ? '#fff' : '#000';
                     }
                     ctx.fillRect(j * cellSize + 1, i * cellSize + 1, cellSize - 2, cellSize - 2);
                 }
@@ -145,6 +146,9 @@
                 changeSpeed(-50);
             } else if (e.key === 'ArrowLeft') {
                 changeSpeed(50);
+            } else if (e.key === 'i' || e.key === 'I') {
+                inverted = !inverted;
+                drawGrid();
             }
         });
 
