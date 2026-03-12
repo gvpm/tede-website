@@ -62,12 +62,79 @@
         #menu-buttons button:active {
             background: #555;
         }
+        .top-menu {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 11;
+        }
+        #top-menu-toggle {
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        #top-menu-buttons {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        #top-menu-buttons button {
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+        #top-menu-buttons button:active {
+            background: #555;
+        }
+        .content {
+            max-width: 600px;
+            margin: 80px auto 0 auto;
+            background: rgba(34,34,34,0.85);
+            color: #fff;
+            border-radius: 12px;
+            padding: 32px 24px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+        }
+        .content section {
+            margin-bottom: 48px;
+        }
+        .content h2 {
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
     <canvas id="game"></canvas>
     <div class="overlay">
-        <!-- Place your website content here -->
+        <div class="top-menu">
+            <button id="top-menu-toggle" aria-label="Menu">☰</button>
+            <div id="top-menu-buttons" style="display:none;">
+                <button class="nav-btn" data-target="guilherme">Guilherme</button>
+                <button class="nav-btn" data-target="historico">Histórico</button>
+            </div>
+        </div>
+        <div class="content">
+            <section id="guilherme-section">
+                <h2>Guilherme</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi vel consectetur euismod, nisl nisi consectetur nisi, euismod euismod nisi nisi euismod nisi.</p>
+            </section>
+            <section id="historico-section">
+                <h2>Histórico</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel consectetur euismod, nisi nisi euismod euismod, euismod euismod nisi nisi euismod.</p>
+            </section>
+        </div>
     </div>
     <div class="menu">
         <button id="menu-toggle" aria-label="Menu">☰</button>
@@ -242,6 +309,26 @@
             btn.textContent = running ? 'Pause' : 'Play';
         }
         updatePlayPauseBtn();
+
+        // Top menu logic
+        let topMenuOpen = false;
+        const topMenuToggle = document.getElementById('top-menu-toggle');
+        const topMenuButtons = document.getElementById('top-menu-buttons');
+        topMenuToggle.addEventListener('click', () => {
+            topMenuOpen = !topMenuOpen;
+            topMenuButtons.style.display = topMenuOpen ? 'flex' : 'none';
+        });
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const target = this.getAttribute('data-target');
+                const section = document.getElementById(target + '-section');
+                if (section) {
+                    section.scrollIntoView({behavior: 'smooth'});
+                    topMenuOpen = false;
+                    topMenuButtons.style.display = 'none';
+                }
+            });
+        });
 
         // Fill grid with random cells for a lively background
         for (let i = 0; i < rows; i++) {
