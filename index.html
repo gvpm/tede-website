@@ -446,14 +446,16 @@
         let touchStartY = null;
         let pullRefreshTriggered = false;
         let pullRefreshIndicator = document.getElementById('pull-refresh-indicator');
+        let pulling = false;
         window.addEventListener('touchstart', function(e) {
-            if (window.scrollY === 0) {
+            if (document.body.scrollTop === 0 || document.documentElement.scrollTop === 0) {
                 touchStartY = e.touches[0].clientY;
                 pullRefreshTriggered = false;
+                pulling = true;
             }
         });
         window.addEventListener('touchmove', function(e) {
-            if (touchStartY !== null && window.scrollY === 0) {
+            if (touchStartY !== null && pulling) {
                 const currentY = e.touches[0].clientY;
                 const pullDistance = currentY - touchStartY;
                 if (pullDistance > 40) {
@@ -464,7 +466,7 @@
             }
         });
         window.addEventListener('touchend', function(e) {
-            if (touchStartY !== null && window.scrollY === 0) {
+            if (touchStartY !== null && pulling) {
                 const endY = e.changedTouches[0].clientY;
                 const pullDistance = endY - touchStartY;
                 pullRefreshIndicator.style.display = 'none';
@@ -475,6 +477,7 @@
             }
             touchStartY = null;
             pullRefreshTriggered = false;
+            pulling = false;
         });
     </script>
 </body>
