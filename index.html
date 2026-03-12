@@ -65,7 +65,7 @@
         .top-menu {
             position: fixed;
             top: 16px;
-            left: 16px;
+            right: 16px;
             z-index: 11;
         }
         #top-menu-toggle {
@@ -100,7 +100,7 @@
         }
         .content {
             max-width: 600px;
-            margin: 80px auto 0 auto;
+            margin: 120px auto 0 auto;
             background: rgba(34,34,34,0.85);
             color: #fff;
             border-radius: 12px;
@@ -152,8 +152,8 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         const ctx = canvas.getContext('2d');
-        let rows = Math.floor(canvas.height / 20);
-        let cols = Math.floor(canvas.width / 20);
+        let rows = Math.floor(canvas.height / 12);
+        let cols = Math.floor(canvas.width / 12);
         let cellSize = Math.min(canvas.width / cols, canvas.height / rows);
         let grid = Array.from({length: rows}, () => Array(cols).fill(0));
         let running = true;
@@ -338,13 +338,14 @@
         }
         drawGrid();
         start();
+        updatePlayPauseBtn();
 
         // Responsive canvas
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            rows = Math.floor(canvas.height / 20);
-            cols = Math.floor(canvas.width / 20);
+            rows = Math.floor(canvas.height / 12);
+            cols = Math.floor(canvas.width / 12);
             cellSize = Math.min(canvas.width / cols, canvas.height / rows);
             // Recreate grid with random cells
             grid = Array.from({length: rows}, () => Array(cols).fill(0));
