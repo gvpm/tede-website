@@ -26,12 +26,58 @@
             position: relative;
             z-index: 1;
         }
+        .menu {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            z-index: 10;
+        }
+        #menu-toggle {
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        #menu-buttons {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        #menu-buttons button {
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+        #menu-buttons button:active {
+            background: #555;
+        }
     </style>
 </head>
 <body>
     <canvas id="game"></canvas>
     <div class="overlay">
         <!-- Place your website content here -->
+    </div>
+    <div class="menu">
+        <button id="menu-toggle" aria-label="Menu">☰</button>
+        <div id="menu-buttons" style="display:none;">
+            <button id="btn-invert" aria-label="Invert Colors">Invert</button>
+            <button id="btn-play" aria-label="Play/Pause">Pause</button>
+            <button id="btn-speedup" aria-label="Increase Speed">+</button>
+            <button id="btn-speeddown" aria-label="Decrease Speed">-</button>
+            <button id="btn-random" aria-label="Randomize Grid">Random</button>
+        </div>
     </div>
     <script>
         const canvas = document.getElementById('game');
@@ -127,6 +173,15 @@
             }
         }
 
+        function randomizeGrid() {
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    grid[i][j] = Math.random() > 0.7 ? 1 : 0;
+                }
+            }
+            drawGrid();
+        }
+
         canvas.addEventListener('click', function(e) {
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
@@ -142,6 +197,7 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'p' || e.key === 'P') {
                 toggleRun();
+                updatePlayPauseBtn();
             } else if (e.key === 'ArrowRight') {
                 changeSpeed(-50);
             } else if (e.key === 'ArrowLeft') {
@@ -149,8 +205,43 @@
             } else if (e.key === 'i' || e.key === 'I') {
                 inverted = !inverted;
                 drawGrid();
+            } else if (e.key === 'r' || e.key === 'R') {
+                randomizeGrid();
             }
         });
+
+        // Menu button logic
+        let menuOpen = false;
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuButtons = document.getElementById('menu-buttons');
+        menuToggle.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            menuButtons.style.display = menuOpen ? 'flex' : 'none';
+        });
+
+        document.getElementById('btn-invert').addEventListener('click', () => {
+            inverted = !inverted;
+            drawGrid();
+        });
+        document.getElementById('btn-play').addEventListener('click', () => {
+            toggleRun();
+            updatePlayPauseBtn();
+        });
+        document.getElementById('btn-speedup').addEventListener('click', () => {
+            changeSpeed(-50);
+        });
+        document.getElementById('btn-speeddown').addEventListener('click', () => {
+            changeSpeed(50);
+        });
+        document.getElementById('btn-random').addEventListener('click', () => {
+            randomizeGrid();
+        });
+
+        function updatePlayPauseBtn() {
+            const btn = document.getElementById('btn-play');
+            btn.textContent = running ? 'Pause' : 'Play';
+        }
+        updatePlayPauseBtn();
 
         // Fill grid with random cells for a lively background
         for (let i = 0; i < rows; i++) {
