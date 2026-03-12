@@ -441,6 +441,29 @@
             placeGlider();
             drawGrid();
         });
+
+        // Pull-to-refresh for mobile: reload page when user scrolls up past top
+        let touchStartY = null;
+        let pullRefreshTriggered = false;
+        window.addEventListener('touchstart', function(e) {
+            if (window.scrollY === 0) {
+                touchStartY = e.touches[0].clientY;
+                pullRefreshTriggered = false;
+            }
+        });
+        window.addEventListener('touchmove', function(e) {
+            if (touchStartY !== null && window.scrollY === 0) {
+                const currentY = e.touches[0].clientY;
+                if (currentY - touchStartY > 60 && !pullRefreshTriggered) {
+                    pullRefreshTriggered = true;
+                    location.reload();
+                }
+            }
+        });
+        window.addEventListener('touchend', function() {
+            touchStartY = null;
+            pullRefreshTriggered = false;
+        });
     </script>
 </body>
 </html>
