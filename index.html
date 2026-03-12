@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conway Game of Life</title>
+    <style>
+        body {
+            background: #222;
+            color: #fff;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            min-height: 100vh;
+        }
+        #game {
+            border: 2px solid #888;
+            margin-top: 32px;
+            background: #333;
+        }
+        .controls {
+            margin-top: 16px;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Conway Game of Life</h1>
+    <canvas id="game" width="500" height="500"></canvas>
+    <div class="controls">
+        <p>Controles:</p>
+        <ul>
+            <li>Tecla <b>P</b>: Iniciar/Parar</li>
+            <li>Seta <b>Direita</b>: Aumentar velocidade</li>
+            <li>Seta <b>Esquerda</b>: Diminuir velocidade</li>
+            <li>Clique em uma célula: alterna viva/morta</li>
+        </ul>
+    </div>
+    <script>
+        const canvas = document.getElementById('game');
+        const ctx = canvas.getContext('2d');
+        let rows = 30;
+        let cols = 30;
+        let cellSize = Math.min(canvas.width, canvas.height) / rows;
+        let grid = Array.from({length: rows}, () => Array(cols).fill(0));
+        let running = false;
+        let speed = 300; // ms
+        let interval = null;
+
+        function drawGrid() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#888';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= rows; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * cellSize);
+                ctx.lineTo(cols * cellSize, i * cellSize);
+                ctx.stroke();
+            }
+            for (let j = 0; j <= cols; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * cellSize, 0);
+                ctx.lineTo(j * cellSize, rows * cellSize);
+                ctx.stroke();
+            }
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    if (grid[i][j]) {
+                        ctx.fillStyle = '#fff';
+                    } else {
+                        ctx.fillStyle = '#000';
+                    }
+                    ctx.fillRect(j * cellSize + 1, i * cellSize + 1, cellSize - 2, cellSize - 2);
+                }
+            }
+        }
+
+        function nextGen() {
+            const newGrid = Array.from({length: rows}, () => Array(cols).fill(0));
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    let neighbors = 0;
+                    for (let di = -1; di <= 1; di++) {
+                        for (let dj = -1; dj <= 1; dj++) {
+                            if (di === 0 && dj === 0) continue;
+                            let ni = i + di;
+                            let nj = j + dj;
+                            if (ni >= 0 && ni < rows && nj >= 0 && nj < cols) {
+                                neighbors += grid[ni][nj];
+                            }
+                        }
+                    }
+                    if (grid[i][j]) {
+                        newGrid[i][j] = (neighbors === 2 || neighbors === 3) ? 1 : 0;
+                    } else {
+                        newGrid[i][j] = (neighbors === 3) ? 1 : 0;
+                    }
+                }
+            }
+            grid = newGrid;
+            drawGrid();
+        }
+
+        function start() {
+            if (!running) {
+                running = true;
+                interval = setInterval(nextGen, speed);
+            }
+        }
+        function stop() {
+            running = false;
+            if (interval) clearInterval(interval);
+        }
+        function toggleRun() {
+            if (running) {
+                stop();
+            } else {
+                start();
+            }
+        }
+        function changeSpeed(delta) {
+            speed = Math.max(50, speed + delta);
+            if (running) {
+                stop();
+                start();
+            }
+        }
+
+        canvas.addEventListener('click', function(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const j = Math.floor(x / cellSize);
+            const i = Math.floor(y / cellSize);
+            if (i >= 0 && i < rows && j >= 0 && j < cols) {
+                grid[i][j] = grid[i][j] ? 0 : 1;
+                drawGrid();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'p' || e.key === 'P') {
+                toggleRun();
+            } else if (e.key === 'ArrowRight') {
+                changeSpeed(-50);
+            } else if (e.key === 'ArrowLeft') {
+                changeSpeed(50);
+            }
+        });
+
+        drawGrid();
+    </script>
+</body>
+</html>
