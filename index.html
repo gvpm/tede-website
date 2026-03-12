@@ -106,6 +106,8 @@
             border-radius: 12px;
             padding: 32px 24px;
             box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            max-height: calc(100vh - 140px);
         }
         .content section {
             margin-bottom: 48px;
@@ -121,18 +123,33 @@
         <div class="top-menu">
             <button id="top-menu-toggle" aria-label="Menu">☰</button>
             <div id="top-menu-buttons" style="display:none;">
-                <button class="nav-btn" data-target="guilherme">Guilherme</button>
-                <button class="nav-btn" data-target="historico">Histórico</button>
+                <button class="nav-btn" data-target="menu1">Menu 1</button>
+                <button class="nav-btn" data-target="menu2">Menu 2</button>
+                <button class="nav-btn" data-target="menu3">Menu 3</button>
+                <button class="nav-btn" data-target="menu4">Menu 4</button>
+                <button class="nav-btn" data-target="menu5">Menu 5</button>
             </div>
         </div>
         <div class="content">
-            <section id="guilherme-section">
-                <h2>Guilherme</h2>
+            <section id="menu1-section">
+                <h2>Menu 1</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi vel consectetur euismod, nisl nisi consectetur nisi, euismod euismod nisi nisi euismod nisi.</p>
             </section>
-            <section id="historico-section">
-                <h2>Histórico</h2>
+            <section id="menu2-section">
+                <h2>Menu 2</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel consectetur euismod, nisi nisi euismod euismod, euismod euismod nisi nisi euismod.</p>
+            </section>
+            <section id="menu3-section">
+                <h2>Menu 3</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada.</p>
+            </section>
+            <section id="menu4-section">
+                <h2>Menu 4</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod, urna eu tincidunt consectetur, nisi nisl aliquam nunc, eget euismod nunc nisi euismod nunc.</p>
+            </section>
+            <section id="menu5-section">
+                <h2>Menu 5</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac neque at dolor cursus posuere. Integer euismod, urna eu tincidunt consectetur, nisi nisl aliquam nunc.</p>
             </section>
         </div>
     </div>
@@ -160,10 +177,10 @@
         let speed = 100; // ms
         let interval = null;
 
-        let inverted = false;
+        let inverted = true;
         function drawGrid() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.strokeStyle = inverted ? '#888' : '#888';
+            ctx.strokeStyle = '#888';
             ctx.lineWidth = 1;
             for (let i = 0; i <= rows; i++) {
                 ctx.beginPath();
