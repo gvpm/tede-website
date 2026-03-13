@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conway Game of Life</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+        #game {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            border: none;
+            z-index: 0;
+            background: #222;
+        }
+        .overlay {
+            position: relative;
+            z-index: 1;
+        }
+        .menu {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            z-index: 10;
+        }
+        #menu-toggle {
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        #menu-buttons {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        #menu-buttons button {
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+        #menu-buttons button:active {
+            background: #555;
+        }
+        .top-menu {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 11;
+        }
+        #top-menu-toggle {
+            background: #444;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            font-size: 1.5em;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        #top-menu-buttons {
+            margin-top: 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        #top-menu-buttons button {
+            background: #333;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 6px 12px;
+            font-size: 1em;
+            cursor: pointer;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+        }
+        #top-menu-buttons button:active {
+            background: #555;
+        }
+        #close-overlay {
+            background: #c00;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            font-size: 1.2em;
+            align-self: flex-end;
+            margin-top: 8px;
+            margin-bottom: 8px;
+            cursor: pointer;
+        }
+        .content {
+            max-width: 900px;
+            margin: 40px auto 0 auto;
+            background: rgba(34,34,34,0.85);
+            color: #fff;
+            border-radius: 12px;
+            padding: 48px 36px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+            overflow-y: auto;
+            max-height: calc(100vh - 140px);
+            width: 90vw;
+            min-width: 0;
+        }
+        @media (max-width: 600px) {
+            .content {
+                width: 92vw;
+                padding: 20px 8px;
+                margin: 16px auto 0 auto;
+                max-width: 98vw;
+            }
+        }
+        .content section {
+            margin-bottom: 48px;
+        }
+        .content h2 {
+            margin-top: 0;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="game"></canvas>
+    <div class="overlay">
+        <div class="top-menu">
+            <button id="top-menu-toggle" aria-label="Menu">☰</button>
+            <div id="top-menu-buttons" style="display:none;">
+                <button class="nav-btn" data-target="menu1">Agbe</button>
+                <button class="nav-btn" data-target="menu2">Alfaia</button>
+                <button class="nav-btn" data-target="menu3">Caixa</button>
+                <button class="nav-btn" data-target="menu4">Gongue</button>
+                <button class="nav-btn" data-target="menu5">Timbal</button>
+                <button id="close-overlay" aria-label="Close Overlay">✕</button>
+            </div>
+        </div>
+        <div class="content" id="main-content">
+            <section id="menu1-section" class="menu-section">
+                <h2>Agbe</h2>
+                <img src="images/agbe.png" alt="Agbe" style="max-width:100%;margin-bottom:16px;border-radius:8px;">
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque euismod, nisi vel consectetur euismod, nisl nisi consectetur nisi, euismod euismod nisi nisi euismod nisi. Mauris non tempor quam, et lacinia sapien. Mauris accumsan eros eget libero posuere vulputate. Etiam elit elit, elementum sed varius at, adipiscing vitae est. Sed nec felis pellentesque, lacinia dui sed, ultricies sapien. Pellentesque orci lectus, consectetur vel posuere posuere, rutrum eu ipsum. Aliquam eget odio sed ligula iaculis consequat at eget orci. Mauris molestie sit amet metus mattis varius. Donec sit amet ligula eget nisi sodales egestas. Aliquam interdum dolor aliquet dolor sollicitudin fermentum.</p>
+                <p>Morbi facilisis, sem in scelerisque sodales, mi lectus hendrerit purus, ut dictum velit augue et erat. Fusce in sagittis massa. Fusce non velit cursus ligula mattis convallis vel at velit. Aliquam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in ex euismod, posuere lectus id, ornare massa. Duis nec turpis euismod, scelerisque quam eu, mollis enim.</p>
+            </section>
+            <section id="menu2-section" class="menu-section" style="display:none;">
+                <h2>Alfaia</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nisl vel consectetur euismod, nisi nisi euismod euismod, euismod euismod nisi nisi euismod. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                <img src="images/alfaia.png" alt="Alfaia" style="max-width:100%;margin:16px 0;border-radius:8px;">
+                <p>Curabitur euismod, sem at convallis placerat, velit nulla dapibus sem, eu convallis sem erat at sapien. Pellentesque ac felis tellus. Aenean sollicitudin imperdiet arcu, vitae dignissim est posuere id. Donec facilisis, dolor ac pulvinar ultricies, eros erat dictum urna, eget dictum enim sem eu sapien. Pellentesque ac felis tellus. Aenean sollicitudin imperdiet arcu, vitae dignissim est posuere id.</p>
+                <p>Aliquam erat volutpat. Etiam ac erat ut enim maximus pretium. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+            </section>
+            <section id="menu3-section" class="menu-section" style="display:none;">
+                <h2>Caixa</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum. Cras venenatis euismod malesuada. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                <p>Morbi facilisis, sem in scelerisque sodales, mi lectus hendrerit purus, ut dictum velit augue et erat. Fusce in sagittis massa. Fusce non velit cursus ligula mattis convallis vel at velit. Aliquam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in ex euismod, posuere lectus id, ornare massa. Duis nec turpis euismod, scelerisque quam eu, mollis enim.</p>
+                <img src="images/caixa.png" alt="Caixa" style="max-width:100%;margin:16px 0;border-radius:8px;">
+                <p>Curabitur euismod, sem at convallis placerat, velit nulla dapibus sem, eu convallis sem erat at sapien. Pellentesque ac felis tellus. Aenean sollicitudin imperdiet arcu, vitae dignissim est posuere id. Donec facilisis, dolor ac pulvinar ultricies, eros erat dictum urna, eget dictum enim sem eu sapien. Pellentesque ac felis tellus. Aenean sollicitudin imperdiet arcu, vitae dignissim est posuere id.</p>
+            </section>
+            <section id="menu4-section" class="menu-section" style="display:none;">
+                <h2>Gongue</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam euismod, urna eu tincidunt consectetur, nisi nisl aliquam nunc, eget euismod nunc nisi euismod nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                <img src="images/gongue.png" alt="Gongue" style="max-width:100%;margin:16px 0;border-radius:8px;">
+                <p>Morbi facilisis, sem in scelerisque sodales, mi lectus hendrerit purus, ut dictum velit augue et erat. Fusce in sagittis massa. Fusce non velit cursus ligula mattis convallis vel at velit. Aliquam varius, turpis et commodo pharetra, est eros bibendum elit, nec luctus magna felis sollicitudin mauris. Integer in ex euismod, posuere lectus id, ornare massa. Duis nec turpis euismod, scelerisque quam eu, mollis enim.</p>
+            </section>
+            <section id="menu5-section" class="menu-section" style="display:none;">
+                <h2>Timbal</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ac neque at dolor cursus posuere. Integer euismod, urna eu tincidunt consectetur, nisi nisl aliquam nunc. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. Aenean ultricies mi vitae est. Mauris placerat eleifend leo.</p>
+                <p>Curabitur euismod, sem at convallis placerat, velit nulla dapibus sem, eu convallis sem erat at sapien. Pellentesque ac felis tellus. Aenean sollicitudin imperdiet arcu, vitae dignissim est posuere id. Donec facilisis, dolor ac pulvinar ultricies, eros erat dictum urna, eget dictum enim sem eu sapien. Pellentesque ac felis tellus. Aenean sollicitudin imperdiet arcu, vitae dignissim est posuere id.</p>
+                <img src="images/timbal.png" alt="Timbal" style="max-width:100%;margin-top:16px;border-radius:8px;">
+                <p>Aliquam erat volutpat. Etiam ac erat ut enim maximus pretium. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.</p>
+            </section>
+        </div>
+    </div>
+    <div class="menu">
+        <button id="menu-toggle" aria-label="Menu">☰</button>
+        <div id="menu-buttons" style="display:none;">
+            <button id="btn-invert" aria-label="Invert Colors">Invert</button>
+            <button id="btn-play" aria-label="Play/Pause">Pause</button>
+            <button id="btn-speedup" aria-label="Increase Speed">+</button>
+            <button id="btn-speeddown" aria-label="Decrease Speed">-</button>
+            <button id="btn-random" aria-label="Randomize Grid">Random</button>
+            <button id="btn-refresh" aria-label="Refresh Page">Refresh</button>
+        </div>
+    </div>
+    <script>
+        const canvas = document.getElementById('game');
+        // Make canvas fill the viewport
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        const ctx = canvas.getContext('2d');
+        let rows = Math.floor(canvas.height / 12);
+        let cols = Math.floor(canvas.width / 12);
+        let cellSize = Math.min(canvas.width / cols, canvas.height / rows);
+        let grid = Array.from({length: rows}, () => Array(cols).fill(0));
+        let running = true;
+        let speed = 100; // ms
+        let interval = null;
+
+        let inverted = true;
+        function drawGrid() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#888';
+            ctx.lineWidth = 1;
+            for (let i = 0; i <= rows; i++) {
+                ctx.beginPath();
+                ctx.moveTo(0, i * cellSize);
+                ctx.lineTo(cols * cellSize, i * cellSize);
+                ctx.stroke();
+            }
+            for (let j = 0; j <= cols; j++) {
+                ctx.beginPath();
+                ctx.moveTo(j * cellSize, 0);
+                ctx.lineTo(j * cellSize, rows * cellSize);
+                ctx.stroke();
+            }
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    if (grid[i][j]) {
+                        ctx.fillStyle = inverted ? '#000' : '#fff';
+                    } else {
+                        ctx.fillStyle = inverted ? '#fff' : '#000';
+                    }
+                    ctx.fillRect(j * cellSize + 1, i * cellSize + 1, cellSize - 2, cellSize - 2);
+                }
+            }
+        }
+
+        function nextGen() {
+            const newGrid = Array.from({length: rows}, () => Array(cols).fill(0));
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    let neighbors = 0;
+                    for (let di = -1; di <= 1; di++) {
+                        for (let dj = -1; dj <= 1; dj++) {
+                            if (di === 0 && dj === 0) continue;
+                            let ni = (i + di + rows) % rows;
+                            let nj = (j + dj + cols) % cols;
+                            neighbors += grid[ni][nj];
+                        }
+                    }
+                    if (grid[i][j]) {
+                        newGrid[i][j] = (neighbors === 2 || neighbors === 3) ? 1 : 0;
+                    } else {
+                        newGrid[i][j] = (neighbors === 3) ? 1 : 0;
+                    }
+                }
+            }
+            grid = newGrid;
+            drawGrid();
+        }
+
+        function start() {
+            if (!running) {
+                running = true;
+                interval = setInterval(nextGen, speed);
+            }
+        }
+        function stop() {
+            running = false;
+            if (interval) clearInterval(interval);
+        }
+        function toggleRun() {
+            if (running) {
+                stop();
+            } else {
+                start();
+            }
+        }
+        function changeSpeed(delta) {
+            speed = Math.max(50, speed + delta);
+            if (running) {
+                stop();
+                start();
+            }
+        }
+
+        function randomizeGrid() {
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    grid[i][j] = Math.random() > 0.7 ? 1 : 0;
+                }
+            }
+            drawGrid();
+        }
+
+        function placeGlider() {
+            // Clear grid
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    grid[i][j] = 0;
+                }
+            }
+            // Glider pattern
+            //  0 1 0
+            //  0 0 1
+            //  1 1 1
+            const midRow = Math.floor(rows / 2);
+            const midCol = Math.floor(cols / 2);
+            if (midRow > 1 && midCol > 1) {
+                grid[midRow][midCol+1] = 1;
+                grid[midRow+1][midCol+2] = 1;
+                grid[midRow+2][midCol] = 1;
+                grid[midRow+2][midCol+1] = 1;
+                grid[midRow+2][midCol+2] = 1;
+            }
+        }
+
+        // On load, place glider and start
+        placeGlider();
+        drawGrid();
+        running = true;
+        if (interval) clearInterval(interval);
+        interval = setInterval(nextGen, speed);
+        updatePlayPauseBtn();
+
+        canvas.addEventListener('click', function(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const j = Math.floor(x / cellSize);
+            const i = Math.floor(y / cellSize);
+            if (i >= 0 && i < rows && j >= 0 && j < cols) {
+                grid[i][j] = grid[i][j] ? 0 : 1;
+                drawGrid();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'p' || e.key === 'P') {
+                toggleRun();
+                updatePlayPauseBtn();
+            } else if (e.key === 'ArrowRight') {
+                changeSpeed(-50);
+            } else if (e.key === 'ArrowLeft') {
+                changeSpeed(50);
+            } else if (e.key === 'i' || e.key === 'I') {
+                inverted = !inverted;
+                drawGrid();
+            } else if (e.key === 'r' || e.key === 'R') {
+                randomizeGrid();
+            }
+        });
+
+        // Menu button logic
+        let menuOpen = false;
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuButtons = document.getElementById('menu-buttons');
+        menuToggle.addEventListener('click', () => {
+            menuOpen = !menuOpen;
+            menuButtons.style.display = menuOpen ? 'flex' : 'none';
+        });
+
+        document.getElementById('btn-invert').addEventListener('click', () => {
+            inverted = !inverted;
+            drawGrid();
+        });
+        document.getElementById('btn-play').addEventListener('click', () => {
+            toggleRun();
+            updatePlayPauseBtn();
+        });
+        document.getElementById('btn-speedup').addEventListener('click', () => {
+            changeSpeed(-50);
+        });
+        document.getElementById('btn-speeddown').addEventListener('click', () => {
+            changeSpeed(50);
+        });
+        document.getElementById('btn-random').addEventListener('click', () => {
+            randomizeGrid();
+        });
+        document.getElementById('btn-refresh').addEventListener('click', () => {
+            location.reload();
+        });
+
+        function updatePlayPauseBtn() {
+            const btn = document.getElementById('btn-play');
+            btn.textContent = running ? 'Pause' : 'Play';
+        }
+        updatePlayPauseBtn();
+
+        // Top menu logic
+        let topMenuOpen = false;
+        const topMenuToggle = document.getElementById('top-menu-toggle');
+        const topMenuButtons = document.getElementById('top-menu-buttons');
+        const mainContent = document.getElementById('main-content');
+        const closeOverlayBtn = document.getElementById('close-overlay');
+        topMenuToggle.addEventListener('click', () => {
+            topMenuOpen = !topMenuOpen;
+            menuShow(topMenuOpen);
+        });
+        function menuShow(show) {
+            topMenuButtons.style.display = show ? 'flex' : 'none';
+        }
+        closeOverlayBtn.addEventListener('click', () => {
+            mainContent.style.display = 'none';
+            menuShow(false);
+        });
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const target = this.getAttribute('data-target');
+                document.querySelectorAll('.menu-section').forEach(sec => sec.style.display = 'none');
+                const section = document.getElementById(target + '-section');
+                if (section) {
+                    section.style.display = '';
+                    window.scrollTo({top: 0, behavior: 'smooth'});
+                    mainContent.style.display = '';
+                    topMenuOpen = false;
+                    menuShow(false);
+                }
+            });
+        });
+
+        // Ensure Game of Life starts running
+        running = true;
+        start();
+        updatePlayPauseBtn();
+
+        // Responsive canvas
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            rows = Math.floor(canvas.height / 12);
+            cols = Math.floor(canvas.width / 12);
+            cellSize = Math.min(canvas.width / cols, canvas.height / rows);
+            // Recreate grid and place glider
+            grid = Array.from({length: rows}, () => Array(cols).fill(0));
+            placeGlider();
+            drawGrid();
+        });
+
+        // Remove pull-to-refresh logic and add refresh button
+        document.getElementById('btn-refresh').addEventListener('click', () => {
+            location.reload();
+        });
+    </script>
+</body>
+</html>
