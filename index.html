@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,6 +13,7 @@
             position: relative;
             min-height: 100vh;
         }
+
         #game {
             position: fixed;
             top: 0;
@@ -22,16 +24,19 @@
             z-index: 0;
             background: #222;
         }
+
         .overlay {
             position: relative;
             z-index: 1;
         }
+
         .menu {
             position: fixed;
             bottom: 16px;
             left: 16px;
             z-index: 10;
         }
+
         #menu-toggle {
             background: #444;
             color: #fff;
@@ -40,15 +45,17 @@
             width: 40px;
             height: 40px;
             font-size: 1.5em;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
         }
+
         #menu-buttons {
             margin-top: 8px;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
+
         #menu-buttons button {
             background: #333;
             color: #fff;
@@ -57,17 +64,20 @@
             padding: 6px 12px;
             font-size: 1em;
             cursor: pointer;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
         }
+
         #menu-buttons button:active {
             background: #555;
         }
+
         .top-menu {
             position: fixed;
             top: 16px;
             right: 16px;
             z-index: 11;
         }
+
         #top-menu-toggle {
             background: #444;
             color: #fff;
@@ -76,15 +86,17 @@
             width: 40px;
             height: 40px;
             font-size: 1.5em;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
         }
+
         #top-menu-buttons {
             margin-top: 8px;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
+
         #top-menu-buttons button {
             background: #333;
             color: #fff;
@@ -93,11 +105,13 @@
             padding: 6px 12px;
             font-size: 1em;
             cursor: pointer;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
         }
+
         #top-menu-buttons button:active {
             background: #555;
         }
+
         #close-overlay {
             background: #c00;
             color: #fff;
@@ -111,19 +125,21 @@
             margin-bottom: 8px;
             cursor: pointer;
         }
+
         .content {
             max-width: 900px;
             margin: 40px auto 0 auto;
-            background: rgba(34,34,34,0.85);
+            background: rgba(34, 34, 34, 0.85);
             color: #fff;
             border-radius: 12px;
             padding: 48px 36px;
-            box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 16px rgba(0, 0, 0, 0.2);
             overflow-y: auto;
             max-height: calc(100vh - 140px);
             width: 90vw;
             min-width: 0;
         }
+
         @media (max-width: 600px) {
             .content {
                 width: 92vw;
@@ -132,21 +148,41 @@
                 max-width: 98vw;
             }
         }
+
         .content section {
             margin-bottom: 48px;
         }
+
         .content h2 {
             margin-top: 0;
         }
+
+        .publication-list li {
+            margin-bottom: 1.2em;
+            /* Espaçamento maior entre publicações */
+        }
+
+        .publication-link {
+            color: inherit;
+            text-decoration: underline;
+            /* Sublinhado sempre visível */
+            font-weight: 500;
+            /* Leve negrito para destacar */
+        }
+
+        .publication-link:hover {
+            color: #333;
+        }
     </style>
 </head>
+
 <body>
     <canvas id="game"></canvas>
     <div class="overlay">
         <div class="top-menu">
             <button id="top-menu-toggle" aria-label="Menu">☰</button>
             <div id="top-menu-buttons" style="display:none;">
-                <button class="nav-btn" data-target="menu1">Apresentação</button>
+                <button class="nav-btn" data-target="menu1">Quem sou</button>
                 <button class="nav-btn" data-target="menu2">Formação e Experiências</button>
                 <button class="nav-btn" data-target="menu3">Interesses e Expectativas</button>
                 <button class="nav-btn" data-target="menu4">Reflexão</button>
@@ -155,22 +191,83 @@
         </div>
         <div class="content" id="main-content">
             <section id="menu1-section" class="menu-section">
-                <h2>Apresentação Pessoal</h2>
-                <p>Olá! Sou natural de Niterói (RJ) e vim a São Paulo a trabalho no ano de 2019, estou aqui desde então. Atuo na área de TI, com foco em meios de pagamento e adquirência. Também me envolvo em iniciativas culturais relacionadas ao maracatu de baque virado, manifestação originária de Recife (PE).</p>
+                <h2>Quem Sou</h2>
+                <p>Olá! Sou <strong>Guilherme Magalhães</strong>, natural de Niterói (RJ) e vim a São Paulo a trabalho
+                    no ano de 2019, onde estou desde então.</p>
+                <p>Atuo na área de TI, com foco em <strong>meios de pagamento e adquirência</strong>.</p>
+                <p>Também me envolvo em iniciativas culturais relacionadas ao <em>maracatu de baque virado</em>,
+                    manifestação originária de Recife (PE).</p>
+                <div style="text-align: center; margin-top: 2em;">
+                    <img src="images/me.png" alt="Guilherme Magalhães"
+                        style="max-width: 300px; height: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.2); border-radius: 8px;">
+                </div>
             </section>
+
             <section id="menu2-section" class="menu-section" style="display:none;">
                 <h2>Formação e Experiências</h2>
-                <p>Sou graduado em Sistemas de Informação pela Universidade Federal Fluminense (UFF). Durante a graduação, participei de projetos de iniciação científica, com destaque para pesquisas que utilizavam autômatos celulares, o que despertou meu interesse pelo Conway Game of Life e motivou o tema deste site. Essas experiências renderam publicações e prêmios. Também durante a graduação, tive a oportunidade de realizar um intercâmbio pelo extinto programa Ciência sem Fronteiras (CSF). Profissionalmente, atuo em TI, especialmente em meios de pagamento, e também me envolvo em projetos maker (impressão 3D, microcontroladores) e iniciativas culturais.</p>
+                <p>Sou graduado em <strong>Sistemas de Informação pela Universidade Federal Fluminense (UFF)</strong>.
+                </p>
+                <p>Durante a graduação, participei de projetos de iniciação científica com <em>autômatos celulares</em>
+                    aplicados à <strong>modelagem de tráfego viário</strong>, despertando meu interesse pelo
+                    <strong>Conway Game of Life</strong> - tema deste site. Essas experiências renderam publicações e
+                    prêmios.
+                </p>
+                <p><strong>Publicações:</strong></p>
+                <ul class="publication-list">
+                    <li>
+                        "A new stochastic cellular automata model for traffic flow simulation with drivers behavior
+                        prediction"
+                        <br><a href="http://www.sciencedirect.com/science/article/pii/S1877750315000435?via%3Dihub"
+                            target="_blank" class="publication-link">Journal of Computational Science · Jul 1, 2015</a>
+                    </li>
+                    <li>
+                        "Traffic Flow Simulation Under the Influence of Different Acceleration Policies"
+                        <br><a href="https://csce.ucmss.com/cr/books/2017/LFS/CSREA2017/CSC6126.pdf" target="_blank"
+                            class="publication-link">ISBN: 1-60132-452-9, CSREA Press © · Aug 1, 2017</a>
+                    </li>
+                    <li>
+                        "Drivers' Behavior Effects in the Occurrence of Dangerous Situations Which May Lead to
+                        Accidents"
+                        <br><a href="https://doi.org/10.1007/978-3-319-99813-8_40" target="_blank"
+                            class="publication-link">ACRI 2018 - ISBN 978-3-319-99813-8 - Springer, Cham · Aug 26,
+                            2018</a>
+                    </li>
+                </ul>
+                <p>Realizei intercâmbio pelo programa <strong>extinto Ciência sem Fronteiras (CSF)</strong> na
+                    <strong>Universidade de Goldsmiths</strong>, em Londres, onde cursei disciplinas do mestrado em
+                    <em>Computational Arts</em>.</p>
+                <p><strong>Profissionalmente:</strong> passagens por British American Tobacco (Souza Cruz), IBM, Stone e
+                    atualmente Worldpay/GlobalPayments, atuando em meios de pagamento.</p>
+                <p><strong>Como hobbies:</strong> desenvolvo projetos maker (<em>impressão 3D</em>,
+                    <em>microcontroladores</em>) e participo de iniciativas culturais.
+                </p>
             </section>
+
+
+
             <section id="menu3-section" class="menu-section" style="display:none;">
                 <h2>Interesses e Expectativas</h2>
-                <p>Tenho interesse em software livre, projetos maker e cultura popular, especialmente o maracatu de baque virado. Escolhi o curso de Design Educacional por acreditar que pode ampliar minhas possibilidades tanto no ambiente corporativo, onde já atuo na concepção de treinamentos internos, quanto em projetos culturais e pessoais. Espero aprender metodologias e ferramentas que me permitam tornar iniciativas mais impactantes e inovadoras.</p>
+                <p>Tenho interesse em <strong>software livre</strong>, projetos maker e cultura popular, especialmente
+                    <em>maracatu de baque virado</em>.
+                </p>
+                <p>Escolhi o curso de <strong>Design Educacional</strong> para ampliar possibilidades no ambiente
+                    corporativo (treinamentos internos) e projetos culturais/pessoais.</p>
+                <p>Espero aprender metodologias para tornar iniciativas mais impactantes e inovadoras.</p>
             </section>
+
             <section id="menu4-section" class="menu-section" style="display:none;">
                 <h2>Reflexão</h2>
-                <p>Imagino que o Design Educacional pode dialogar com minha trajetória ao proporcionar uma abordagem estruturada para o desenvolvimento de treinamentos e projetos, tanto no ambiente corporativo quanto em iniciativas culturais. A experiência com autômatos celulares e o interesse pelo Conway Game of Life mostram como a tecnologia pode ser usada de forma criativa e educativa. Vejo o Design Educacional como uma ponte entre meus interesses em tecnologia, educação e cultura, permitindo potencializar o impacto das ações que realizo.</p>
+                <p>O Design Educacional dialoga com minha trajetória, estruturando treinamentos e projetos
+                    corporativos/culturais.</p>
+                <p>Minha experiência com autômatos celulares e Conway Game of Life exemplifica tecnologia criativa e
+                    educativa.</p>
+                <p>Vejo-o como ponte entre tecnologia, educação e cultura para potencializar minhas ações.</p>
             </section>
         </div>
+
+
+
+
     </div>
     <div class="menu">
         <button id="menu-toggle" aria-label="Menu">☰</button>
@@ -192,7 +289,7 @@
         let rows = Math.floor(canvas.height / 12);
         let cols = Math.floor(canvas.width / 12);
         let cellSize = Math.min(canvas.width / cols, canvas.height / rows);
-        let grid = Array.from({length: rows}, () => Array(cols).fill(0));
+        let grid = Array.from({ length: rows }, () => Array(cols).fill(0));
         let running = true;
         let speed = 100; // ms
         let interval = null;
@@ -227,7 +324,7 @@
         }
 
         function nextGen() {
-            const newGrid = Array.from({length: rows}, () => Array(cols).fill(0));
+            const newGrid = Array.from({ length: rows }, () => Array(cols).fill(0));
             for (let i = 0; i < rows; i++) {
                 for (let j = 0; j < cols; j++) {
                     let neighbors = 0;
@@ -298,11 +395,11 @@
             const midRow = Math.floor(rows / 2);
             const midCol = Math.floor(cols / 2);
             if (midRow > 1 && midCol > 1) {
-                grid[midRow][midCol+1] = 1;
-                grid[midRow+1][midCol+2] = 1;
-                grid[midRow+2][midCol] = 1;
-                grid[midRow+2][midCol+1] = 1;
-                grid[midRow+2][midCol+2] = 1;
+                grid[midRow][midCol + 1] = 1;
+                grid[midRow + 1][midCol + 2] = 1;
+                grid[midRow + 2][midCol] = 1;
+                grid[midRow + 2][midCol + 1] = 1;
+                grid[midRow + 2][midCol + 2] = 1;
             }
         }
 
@@ -314,7 +411,7 @@
         interval = setInterval(nextGen, speed);
         updatePlayPauseBtn();
 
-        canvas.addEventListener('click', function(e) {
+        canvas.addEventListener('click', function (e) {
             const rect = canvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
@@ -326,7 +423,7 @@
             }
         });
 
-        document.addEventListener('keydown', function(e) {
+        document.addEventListener('keydown', function (e) {
             if (e.key === 'p' || e.key === 'P') {
                 toggleRun();
                 updatePlayPauseBtn();
@@ -396,13 +493,13 @@
             menuShow(false);
         });
         document.querySelectorAll('.nav-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 const target = this.getAttribute('data-target');
                 document.querySelectorAll('.menu-section').forEach(sec => sec.style.display = 'none');
                 const section = document.getElementById(target + '-section');
                 if (section) {
                     section.style.display = '';
-                    window.scrollTo({top: 0, behavior: 'smooth'});
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                     mainContent.style.display = '';
                     topMenuOpen = false;
                     menuShow(false);
@@ -423,7 +520,7 @@
             cols = Math.floor(canvas.width / 12);
             cellSize = Math.min(canvas.width / cols, canvas.height / rows);
             // Recreate grid and place glider
-            grid = Array.from({length: rows}, () => Array(cols).fill(0));
+            grid = Array.from({ length: rows }, () => Array(cols).fill(0));
             placeGlider();
             drawGrid();
         });
@@ -434,4 +531,5 @@
         });
     </script>
 </body>
+
 </html>
