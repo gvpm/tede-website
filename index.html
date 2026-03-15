@@ -75,7 +75,7 @@
             position: fixed;
             top: 16px;
             right: 16px;
-            z-index: 11;
+            z-index: 1001;
         }
 
         #top-menu-toggle {
@@ -91,10 +91,18 @@
         }
 
         #top-menu-buttons {
-            margin-top: 8px;
-            display: flex;
+            position: absolute;
+            top: 56px;
+            /* Linha 98 - ABAIXO do botão */
+            right: 0;
+            width: 200px;
+            background: rgba(20, 20, 20, 0.98);
+            border-radius: 8px;
+            padding: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
             flex-direction: column;
             gap: 6px;
+            backdrop-filter: blur(20px);
         }
 
         #top-menu-buttons button {
@@ -116,14 +124,17 @@
             background: #c00;
             color: #fff;
             border: none;
-            border-radius: 50%;
-            width: 32px;
+            border-radius: 6px;
+            width: auto;
             height: 32px;
-            font-size: 1.2em;
+            font-size: 0.9em;
+            padding: 0 12px;
             align-self: flex-end;
             margin-top: 8px;
             margin-bottom: 8px;
             cursor: pointer;
+            min-width: 120px;
+            justify-content: center;
         }
 
         .content {
@@ -140,13 +151,65 @@
             min-width: 0;
         }
 
+        /* ESPAÇO EXTRA - EVITAR SOBREPOSIÇÃO MENU MOBILE */
+        .menu-section h2 {
+            margin-bottom: 1.5em !important;
+            padding-top: 1em;
+        }
+
+        .menu-section>p:first-of-type {
+            margin-top: 1em !important;
+        }
+
         @media (max-width: 600px) {
             .content {
-                width: 92vw;
-                padding: 20px 8px;
-                margin: 16px auto 0 auto;
-                max-width: 98vw;
+                padding-top: 80px !important;
             }
+
+            .menu-section h2 {
+                margin-bottom: 2em !important;
+                padding-top: 1.5em;
+            }
+
+            .menu-section {
+                margin-bottom: 3em !important;
+            }
+        }
+
+        @media (max-width: 480px) {
+            #top-menu-buttons {
+                right: -8px;
+                width: 170px;
+                top: 52px;
+            }
+
+            .content {
+                margin-left: 20px !important;
+                margin-right: 20px !important;
+            }
+        }
+
+        #btn-glider,
+        #btn-lwss,
+        #btn-copperhead {
+            background: linear-gradient(145deg, #4a5, #5a6);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            margin: 2px 0;
+        }
+
+        #btn-glider img,
+        #btn-lwss img,
+        #btn-copperhead img {
+            border-radius: 4px;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
         }
 
         .content section {
@@ -157,21 +220,28 @@
             margin-top: 0;
         }
 
-        .publication-list li {
+        css .publication-list li {
             margin-bottom: 1.2em;
-            /* Espaçamento maior entre publicações */
         }
 
         .publication-link {
             color: inherit;
             text-decoration: underline;
-            /* Sublinhado sempre visível */
             font-weight: 500;
-            /* Leve negrito para destacar */
         }
 
-        .publication-link:hover {
-            color: #333;
+        .publication-link:hover,
+        .publication-link:active,
+        .publication-link:focus {
+            color: #f0f0f0 !important;
+            /* Cinza bem claro (quase branco) */
+        }
+
+        a:hover,
+        a:active,
+        a:focus {
+            color: #f0f0f0 !important;
+            /* Para TODOS os links */
         }
     </style>
 </head>
@@ -187,7 +257,7 @@
                 <button class="nav-btn" data-target="menu3">Interesses e Expectativas</button>
                 <button class="nav-btn" data-target="menu4">Reflexão</button>
                 <button class="nav-btn" data-target="menu5">Game of Life</button>
-                <button id="close-overlay" aria-label="Close Overlay">✕</button>
+                <button id="close-overlay" aria-label="Ocultar Conteúdo">Ocultar Conteúdo</button>
             </div>
         </div>
         <div class="content" id="main-content">
@@ -236,7 +306,8 @@
                 </ul>
                 <p>Realizei intercâmbio pelo programa <strong>extinto Ciência sem Fronteiras (CSF)</strong> na
                     <strong>Universidade de Goldsmiths</strong>, em Londres, onde cursei disciplinas do mestrado em
-                    <em>Computational Arts</em>.</p>
+                    <em>Computational Arts</em>.
+                </p>
                 <p><strong>Profissionalmente:</strong> passagens por British American Tobacco (Souza Cruz), IBM, Stone e
                     atualmente Worldpay/GlobalPayments, atuando em meios de pagamento.</p>
                 <p><strong>Como hobbies:</strong> desenvolvo projetos maker (<em>impressão 3D</em>,
@@ -256,32 +327,38 @@
                 <p>Espero aprender metodologias para tornar iniciativas mais impactantes e inovadoras.</p>
             </section>
 
-          <section id="menu4-section" class="menu-section" style="display:none;">
-    <h2>Reflexão</h2>
-    <p>Conhecer e me encantar com o Conway Game of Life (Jogo da Vida), tema do site, facilitou meu envolvimento e aprendizado sobre autômatos celulares, o que impulsionou minha pesquisa nessa área e facilitou minha graduação.</p>
-    <p>Vejo como a tecnologia, aplicada de forma criativa, pode impulsionar o aprendizado.</p>
-    <p>O DE pode também ser a ponte entre tecnologia, educação e cultura para potencializar minhas ações.</p>
-</section>
+            <section id="menu4-section" class="menu-section" style="display:none;">
+                <h2>Reflexão</h2>
+                <p>Conhecer e me encantar com o Conway Game of Life (Jogo da Vida), tema do site, facilitou meu
+                    envolvimento e aprendizado sobre autômatos celulares, o que impulsionou minha pesquisa nessa área e
+                    facilitou minha graduação.</p>
+                <p>Vejo como a tecnologia, aplicada de forma criativa, pode impulsionar o aprendizado.</p>
+                <p>O DE pode também ser a ponte entre tecnologia, educação e cultura para potencializar minhas ações.
+                </p>
+            </section>
 
-<section id="menu5-section" class="menu-section" style="display:none;">
-    <h2>Game of Life</h2>
-    
-    <p><strong>O que é o Jogo da Vida?</strong></p>
-    <p>
-        <a href="https://pt.wikipedia.org/wiki/Jogo_da_vida#Regras_do_Jogo_da_Vida" target="_blank" class="publication-link">Wikipedia</a> | 
-        <a href="https://conwaylife.com/" target="_blank" class="publication-link">conwaylife.com</a>
-    </p>
-    
-    <p><strong>Regras</strong></p>
-    <ul>
-        <li>Qualquer célula viva com menos de dois vizinhos vivos morre de solidão.</li>
-        <li>Qualquer célula viva com mais de três vizinhos vivos morre de superpopulação.</li>
-        <li>Qualquer célula morta com exatamente três vizinhos vivos se torna uma célula viva.</li>
-        <li>Qualquer célula viva com dois ou três vizinhos vivos continua no mesmo estado para a próxima geração.</li>
-    </ul>
-    
-    <p>Esse site é uma implementação interativa do jogo! Feche este menu e explore o menu inferior esquerdo para interagir com o grid.</p>
-</section>
+            <section id="menu5-section" class="menu-section" style="display:none;">
+                <h2>Game of Life</h2>
+
+                <p><strong>O que é o Jogo da Vida?</strong></p>
+                <p>
+                    <a href="https://pt.wikipedia.org/wiki/Jogo_da_vida#Regras_do_Jogo_da_Vida" target="_blank"
+                        class="publication-link">Wikipedia</a> |
+                    <a href="https://conwaylife.com/" target="_blank" class="publication-link">conwaylife.com</a>
+                </p>
+
+                <p><strong>Regras</strong></p>
+                <ul>
+                    <li>Qualquer célula viva com menos de dois vizinhos vivos morre de solidão.</li>
+                    <li>Qualquer célula viva com mais de três vizinhos vivos morre de superpopulação.</li>
+                    <li>Qualquer célula morta com exatamente três vizinhos vivos se torna uma célula viva.</li>
+                    <li>Qualquer célula viva com dois ou três vizinhos vivos continua no mesmo estado para a próxima
+                        geração.</li>
+                </ul>
+
+                <p>Clique em <strong>"Ocultar Conteúdo"</strong> no menu superior e explore a interação com o Jogo da
+                    Vida usando o menu inferior esquerdo.</p>
+            </section>
         </div>
 
 
@@ -293,9 +370,18 @@
         <div id="menu-buttons" style="display:none;">
             <button id="btn-invert" aria-label="Invert Colors">Invert</button>
             <button id="btn-play" aria-label="Play/Pause">Pause</button>
-            <button id="btn-speedup" aria-label="Increase Speed">+</button>
-            <button id="btn-speeddown" aria-label="Decrease Speed">-</button>
+            <button id="btn-speedup" aria-label="Increase Speed">+ speed</button>
+            <button id="btn-speeddown" aria-label="Decrease Speed">- speed</button>
             <button id="btn-random" aria-label="Randomize Grid">Random</button>
+            <button id="btn-glider" aria-label="Glider" title="Glider">
+                <img src="images/glider-small.png" alt="Glider" style="width:24px;height:24px;">
+            </button>
+            <button id="btn-lwss" aria-label="LWSS" title="Lightweight Spaceship">
+                <img src="images/lwss-small.png" alt="LWSS" style="width:28px;height:28px;">
+            </button>
+            <button id="btn-copperhead" aria-label="Copperhead" title="Copperhead">
+                <img src="images/copperhead-small.png" alt="Copperhead" style="width:32px;height:32px;">
+            </button>
             <button id="btn-refresh" aria-label="Refresh Page">Refresh</button>
         </div>
     </div>
@@ -530,6 +616,71 @@
         running = true;
         start();
         updatePlayPauseBtn();
+
+        function injectPatternRandom(patternName) {
+            let pattern, width, height;
+
+            if (patternName === 'glider') {
+                pattern = [[0, 1, 0], [0, 0, 1], [1, 1, 1]];
+                width = 3; height = 3;
+            }
+            else if (patternName === 'lwss') {
+                // RLE OFICIAL: bo2bo$o4b$o3bo$4o! = 5x4
+                pattern = [
+                    [0, 1, 0, 0, 1],  // 01001
+                    [1, 0, 0, 0, 0],  // 1 (padded)
+                    [1, 0, 0, 0, 1],  // 10001
+                    [1, 1, 1, 1, 0]   // 1111 (padded)
+                ];
+                width = 5; height = 4;
+            }
+            else if (patternName === 'copperhead') {
+                // RLE OFICIAL 8x12: b2o2b2o$3b2o$3b2o$obo2bobo$o6bo2$o6bo$b2o2b2o$2b4o2$3b2o$3b2o!
+                pattern = [
+                    [0, 1, 1, 0, 0, 1, 1, 0],  // 01100110
+                    [0, 0, 0, 1, 1, 0, 0, 0],  // 00011000
+                    [0, 0, 0, 1, 1, 0, 0, 0],  // 00011000
+                    [1, 0, 1, 0, 0, 1, 0, 1],  // 10100101
+                    [1, 0, 0, 0, 0, 0, 0, 1],  // 10000001
+                    [0, 0, 0, 0, 0, 0, 0, 0],  // 00000000
+                    [1, 0, 0, 0, 0, 0, 0, 1],  // 10000001
+                    [0, 1, 1, 0, 0, 1, 1, 0],  // 01100110
+                    [0, 0, 1, 1, 1, 1, 0, 0],  // 00111100
+                    [0, 0, 0, 0, 0, 0, 0, 0],  // 00000000
+                    [0, 0, 0, 1, 1, 0, 0, 0],  // 00011000
+                    [0, 0, 0, 1, 1, 0, 0, 0]   // 00011000
+                ];
+                width = 8; height = 12;
+            }
+
+            // Posição aleatória LIBERAL
+            const margin = 1;
+            const maxX = Math.max(1, cols - width);
+            const maxY = Math.max(1, rows - height);
+            const startX = margin + Math.floor(Math.random() * maxX);
+            const startY = margin + Math.floor(Math.random() * maxY);
+
+            // INJETAR sobre grid atual
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    if (pattern[y][x] === 1) {
+                        const gridY = startY + y;
+                        const gridX = startX + x;
+                        if (gridY >= 0 && gridY < rows && gridX >= 0 && gridX < cols) {
+                            grid[gridY][gridX] = 1;
+                        }
+                    }
+                }
+            }
+            drawGrid();
+        }
+
+
+        // Event listeners
+        document.getElementById('btn-glider').addEventListener('click', () => injectPatternRandom('glider'));
+        document.getElementById('btn-lwss').addEventListener('click', () => injectPatternRandom('lwss'));
+        document.getElementById('btn-copperhead').addEventListener('click', () => injectPatternRandom('copperhead'));
+
 
         // Responsive canvas
         window.addEventListener('resize', () => {
