@@ -201,6 +201,24 @@
             color: #ccc !important;
             text-decoration: none;
         }
+
+        /* IMAGENS DOS PADRÕES GAME OF LIFE */
+        #btn-glider img,
+        #btn-lwss img,
+        #btn-copperhead img {
+            display: block;
+            margin: auto;
+        }
+
+        #btn-glider,
+        #btn-lwss,
+        #btn-copperhead {
+            min-height: 36px;
+            padding: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     </style>
 </head>
 
@@ -334,12 +352,21 @@
         <div id="menu-buttons" style="display:none;">
             <button id="btn-invert" aria-label="Invert Colors">Invert</button>
             <button id="btn-play" aria-label="Play/Pause">Pause</button>
-            <button id="btn-speedup" aria-label="Increase Speed">+</button>
-            <button id="btn-speeddown" aria-label="Decrease Speed">-</button>
-            <button id="btn-glider" aria-label="Glider">🪰</button>
-            <button id="btn-lwss" aria-label="LWSS">🚀</button>
-            <button id="btn-copperhead" aria-label="Copperhead">🐍</button>
+
+            <button id="btn-glider" aria-label="Glider">
+                <img src="images/glider-small.png" alt="Glider" style="width:20px;height:20px;">
+            </button>
+            <button id="btn-lwss" aria-label="LWSS">
+                <img src="images/lwss-small.png" alt="LWSS" style="width:20px;height:20px;">
+            </button>
+            <button id="btn-copperhead" aria-label="Copperhead">
+                <img src="images/copperhead-small.png" alt="Copperhead" style="width:20px;height:20px;">
+            </button>
             <button id="btn-random" aria-label="Randomize Grid">Random</button>
+
+            <button id="btn-speedup" aria-label="Increase Speed">+ speed</button>
+            <button id="btn-speeddown" aria-label="Decrease Speed">- speed</button>
+
             <button id="btn-refresh" aria-label="Refresh Page">Refresh</button>
         </div>
     </div>
