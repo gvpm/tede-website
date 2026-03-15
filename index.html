@@ -350,7 +350,6 @@
     <div class="menu">
         <button id="menu-toggle" aria-label="Menu">☰</button>
         <div id="menu-buttons" style="display:none;">
-            <button id="btn-invert" aria-label="Invert Colors">Invert</button>
             <button id="btn-play" aria-label="Play/Pause">Pause</button>
 
             <button id="btn-glider" aria-label="Glider">
@@ -363,9 +362,12 @@
                 <img src="images/copperhead-small.png" alt="Copperhead" style="width:20px;height:20px;">
             </button>
             <button id="btn-random" aria-label="Randomize Grid">Random</button>
+            <button id="btn-clear" aria-label="Clear Grid">Clear</button>
 
             <button id="btn-speedup" aria-label="Increase Speed">+ speed</button>
             <button id="btn-speeddown" aria-label="Decrease Speed">- speed</button>
+            <button id="btn-invert" aria-label="Invert Colors">Invert</button>
+
 
             <button id="btn-refresh" aria-label="Refresh Page">Refresh</button>
         </div>
@@ -528,6 +530,17 @@
                 randomizeGrid();
             }
         });
+
+        function clearGrid() {
+            // ZERA TODO O GRID
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    grid[i][j] = 0;
+                }
+            }
+            drawGrid();
+        }
+
         // INJEÇÃO SOBRE GRID ATUAL - SEM LIMPAR
         function injectPatternRandom(patternName) {
             let pattern, width, height;
@@ -625,6 +638,9 @@
             location.reload();
         });
 
+        document.getElementById('btn-clear').addEventListener('click', () => {
+            clearGrid();
+        });
         function updatePlayPauseBtn() {
             const btn = document.getElementById('btn-play');
             btn.textContent = running ? 'Pause' : 'Play';
