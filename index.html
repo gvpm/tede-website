@@ -161,12 +161,19 @@
             margin-top: 1em !important;
         }
 
+        /* MOBILE - VERSÃO ANTIGA QUE FUNCIONAVA */
         @media (max-width: 600px) {
             .content {
                 padding-top: 80px !important;
-                width: 95vw !important;
+                margin: 0 15px !important;
+                width: calc(100% - 30px) !important;
                 max-width: none !important;
-                margin: 0 auto !important;
+            }
+
+            #top-menu-buttons {
+                right: 12px;
+                width: 160px;
+                top: 52px;
             }
 
             .menu-section h2 {
@@ -177,23 +184,54 @@
             .menu-section {
                 margin-bottom: 3em !important;
             }
+
+            /* GRID CANVAS - VOLTAR AO ORIGINAL */
+            #gameCanvas {
+                width: 100% !important;
+                max-width: 350px !important;
+                height: auto !important;
+                margin: 0 auto !important;
+                display: block !important;
+                box-sizing: border-box !important;
+            }
         }
 
         @media (max-width: 480px) {
-            #top-menu-buttons {
-                right: 8px;
-                /* ← +8px em vez de -8px */
-                width: 170px;
-                top: 52px;
+            .content {
+                margin: 0 10px !important;
+                width: calc(100% - 20px) !important;
+                padding-top: 85px !important;
             }
 
-            .content {
-                margin: 0 12px !important;
-                /* ← margin uniforme */
-                width: calc(100vw - 24px) !important;
-                /* ← Largura total menos margens */
-                max-width: none !important;
+            #top-menu-buttons {
+                right: 8px;
+                width: 150px;
+                top: 50px;
             }
+
+            /* CORREÇÃO GRID MOBILE - SEMPRE VISÍVEL */
+            #grid-container {
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow: visible !important;
+                margin: 0 auto !important;
+            }
+
+            #gameCanvas {
+                image-rendering: pixelated;
+                image-rendering: -moz-crisp-edges;
+                image-rendering: crisp-edges;
+                width: 100%;
+                height: auto;
+                max-width: 500px;
+                display: block;
+                margin: 0 auto;
+                touch-action: none;
+                box-sizing: border-box;
+            }
+
+
+      
         }
 
         #btn-glider,
