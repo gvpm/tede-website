@@ -303,6 +303,9 @@
             <button id="btn-play" aria-label="Play/Pause">Pause</button>
             <button id="btn-speedup" aria-label="Increase Speed">+</button>
             <button id="btn-speeddown" aria-label="Decrease Speed">-</button>
+            <button id="btn-glider" aria-label="Glider">🪰</button>
+            <button id="btn-lwss" aria-label="LWSS">🚀</button>
+            <button id="btn-copperhead" aria-label="Copperhead">🐍</button>
             <button id="btn-random" aria-label="Randomize Grid">Random</button>
             <button id="btn-refresh" aria-label="Refresh Page">Refresh</button>
         </div>
@@ -466,6 +469,68 @@
             }
         });
 
+        // NOVAS FUNÇÕES DE PADRÕES - TESTADAS E FUNCIONAIS
+        function injectPatternRandom(patternName) {
+            let pattern, width, height;
+
+            if (patternName === 'glider') {
+                pattern = [[0, 1, 0], [0, 0, 1], [1, 1, 1]];
+                width = 3; height = 3;
+            }
+            else if (patternName === 'lwss') {
+                pattern = [
+                    [0, 1, 0, 0, 1],
+                    [1, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 1],
+                    [1, 1, 1, 1, 0]
+                ];
+                width = 5; height = 4;
+            }
+            else if (patternName === 'copperhead') {
+                // MATRIZ BINÁRIA OFICIAL 8x12
+                pattern = [
+                    [0, 1, 1, 0, 0, 1, 1, 0],
+                    [0, 0, 0, 1, 1, 0, 0, 0],
+                    [0, 0, 0, 1, 1, 0, 0, 0],
+                    [1, 0, 1, 0, 0, 1, 0, 1],
+                    [1, 0, 0, 0, 0, o0, 0, 1],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [1, 0, 0, 0, 0, 0, 0, 1],
+                    [0, 1, 1, 0, 0, 1, 1, 0],
+                    [0, 0, 1, 1, 1, 1, 0, 0],
+                    [0, 0, 0, 0, 0, 0, 0, 0],
+                    [0, 0, 0, 1, 1, 0, 0, 0],
+                    [0, 0, 0, 1, 1, 0, 0, 0]
+                ];
+                width = 8; height = 12;
+            }
+
+            // Limpa grid
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    grid[i][j] = 0;
+                }
+            }
+
+            const margin = 2;
+            const startX = margin + Math.floor(Math.random() * (cols - width - margin * 2));
+            const startY = margin + Math.floor(Math.random() * (rows - height - margin * 2));
+
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    if (pattern[y][x] === 1) {
+                        const gridY = startY + y;
+                        const gridX = startX + x;
+                        if (gridY >= 0 && gridY < rows && gridX >= 0 && gridX < cols) {
+                            grid[gridY][gridX] = 1;
+                        }
+                    }
+                }
+            }
+            drawGrid();
+        }
+
+
         // Menu button logic
         let menuOpen = false;
         const menuToggle = document.getElementById('menu-toggle');
@@ -488,6 +553,16 @@
         });
         document.getElementById('btn-speeddown').addEventListener('click', () => {
             changeSpeed(50);
+        });
+
+        document.getElementById('btn-glider').addEventListener('click', () => {
+            injectPatternRandom('glider');
+        });
+        document.getElementById('btn-lwss').addEventListener('click', () => {
+            injectPatternRandom('lwss');
+        });
+        document.getElementById('btn-copperhead').addEventListener('click', () => {
+            injectPatternRandom('copperhead');
         });
         document.getElementById('btn-random').addEventListener('click', () => {
             randomizeGrid();
