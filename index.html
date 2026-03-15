@@ -76,6 +76,7 @@
             top: 16px;
             right: 16px;
             z-index: 11;
+            /* FIXO E SÓLIDO */
         }
 
         #top-menu-toggle {
@@ -83,18 +84,29 @@
             color: #fff;
             border: none;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            font-size: 1.5em;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            width: 44px;
+            height: 44px;
+            font-size: 1.6em;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             cursor: pointer;
+            position: relative;
+            transform: translateZ(0);
         }
 
         #top-menu-buttons {
-            margin-top: 8px;
+            margin-top: 10px;
             display: flex;
             flex-direction: column;
-            gap: 6px;
+            gap: 8px;
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background: rgba(34, 34, 34, 0.95);
+            padding: 12px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            min-width: 180px;
         }
 
         #top-menu-buttons button {
@@ -113,18 +125,20 @@
         }
 
         #close-overlay {
-            background: #c00;
-            color: #fff;
+            background: #c00 !important;
+            color: #fff !important;
             border: none;
-            border-radius: 50%;
-            width: 32px;
-            height: 32px;
-            font-size: 1.2em;
-            align-self: flex-end;
-            margin-top: 8px;
-            margin-bottom: 8px;
+            border-radius: 6px;
+            padding: 8px 14px;
+            font-size: 0.9em;
+            width: auto;
+            height: auto;
+            align-self: stretch;
+            margin: 0;
             cursor: pointer;
+            font-weight: 600;
         }
+
 
         .content {
             max-width: 900px;
@@ -187,7 +201,7 @@
                 <button class="nav-btn" data-target="menu3">Interesses e Expectativas</button>
                 <button class="nav-btn" data-target="menu4">Reflexão</button>
                 <button class="nav-btn" data-target="menu5">Game of Life</button>
-                <button id="close-overlay" aria-label="Close Overlay">✕</button>
+                <button id="close-overlay" aria-label="Ocultar Conteúdo">Ocultar Conteúdo</button>
             </div>
         </div>
         <div class="content" id="main-content">
