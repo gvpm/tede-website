@@ -75,7 +75,7 @@
             position: fixed;
             top: 16px;
             right: 16px;
-            z-index: 1001;
+            z-index: 11;
         }
 
         #top-menu-toggle {
@@ -91,18 +91,10 @@
         }
 
         #top-menu-buttons {
-            position: absolute;
-            top: 56px;
-            /* Linha 98 - ABAIXO do botão */
-            right: 0;
-            width: 200px;
-            background: rgba(20, 20, 20, 0.98);
-            border-radius: 8px;
-            padding: 12px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+            margin-top: 8px;
+            display: flex;
             flex-direction: column;
             gap: 6px;
-            backdrop-filter: blur(20px);
         }
 
         #top-menu-buttons button {
@@ -124,17 +116,14 @@
             background: #c00;
             color: #fff;
             border: none;
-            border-radius: 6px;
-            width: auto;
+            border-radius: 50%;
+            width: 32px;
             height: 32px;
-            font-size: 0.9em;
-            padding: 0 12px;
+            font-size: 1.2em;
             align-self: flex-end;
             margin-top: 8px;
             margin-bottom: 8px;
             cursor: pointer;
-            min-width: 120px;
-            justify-content: center;
         }
 
         .content {
@@ -151,110 +140,13 @@
             min-width: 0;
         }
 
-        /* ESPAÇO EXTRA - EVITAR SOBREPOSIÇÃO MENU MOBILE */
-        .menu-section h2 {
-            margin-bottom: 1.5em !important;
-            padding-top: 1em;
-        }
-
-        .menu-section>p:first-of-type {
-            margin-top: 1em !important;
-        }
-
-        /* MOBILE - VERSÃO ANTIGA QUE FUNCIONAVA */
         @media (max-width: 600px) {
             .content {
-                padding-top: 80px !important;
-                margin: 0 15px !important;
-                width: calc(100% - 30px) !important;
-                max-width: none !important;
+                width: 92vw;
+                padding: 20px 8px;
+                margin: 16px auto 0 auto;
+                max-width: 98vw;
             }
-
-            #top-menu-buttons {
-                right: 12px;
-                width: 160px;
-                top: 52px;
-            }
-
-            .menu-section h2 {
-                margin-bottom: 2em !important;
-                padding-top: 1.5em;
-            }
-
-            .menu-section {
-                margin-bottom: 3em !important;
-            }
-
-            /* GRID CANVAS - VOLTAR AO ORIGINAL */
-            #gameCanvas {
-                width: 100% !important;
-                max-width: 350px !important;
-                height: auto !important;
-                margin: 0 auto !important;
-                display: block !important;
-                box-sizing: border-box !important;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .content {
-                margin: 0 10px !important;
-                width: calc(100% - 20px) !important;
-                padding-top: 85px !important;
-            }
-
-            #top-menu-buttons {
-                right: 8px;
-                width: 150px;
-                top: 50px;
-            }
-
-            /* CORREÇÃO GRID MOBILE - SEMPRE VISÍVEL */
-            #grid-container {
-                width: 100% !important;
-                max-width: 100% !important;
-                overflow: visible !important;
-                margin: 0 auto !important;
-            }
-
-            #gameCanvas {
-                image-rendering: pixelated;
-                image-rendering: -moz-crisp-edges;
-                image-rendering: crisp-edges;
-                width: 100%;
-                height: auto;
-                max-width: 500px;
-                display: block;
-                margin: 0 auto;
-                touch-action: none;
-                box-sizing: border-box;
-            }
-
-
-      
-        }
-
-        #btn-glider,
-        #btn-lwss,
-        #btn-copperhead {
-            background: linear-gradient(145deg, #4a5, #5a6);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            margin: 2px 0;
-        }
-
-        #btn-glider img,
-        #btn-lwss img,
-        #btn-copperhead img {
-            border-radius: 4px;
-            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
         }
 
         .content section {
@@ -265,28 +157,21 @@
             margin-top: 0;
         }
 
-        css .publication-list li {
+        .publication-list li {
             margin-bottom: 1.2em;
+            /* Espaçamento maior entre publicações */
         }
 
         .publication-link {
             color: inherit;
             text-decoration: underline;
+            /* Sublinhado sempre visível */
             font-weight: 500;
+            /* Leve negrito para destacar */
         }
 
-        .publication-link:hover,
-        .publication-link:active,
-        .publication-link:focus {
-            color: #f0f0f0 !important;
-            /* Cinza bem claro (quase branco) */
-        }
-
-        a:hover,
-        a:active,
-        a:focus {
-            color: #f0f0f0 !important;
-            /* Para TODOS os links */
+        .publication-link:hover {
+            color: #333;
         }
     </style>
 </head>
@@ -302,7 +187,7 @@
                 <button class="nav-btn" data-target="menu3">Interesses e Expectativas</button>
                 <button class="nav-btn" data-target="menu4">Reflexão</button>
                 <button class="nav-btn" data-target="menu5">Game of Life</button>
-                <button id="close-overlay" aria-label="Ocultar Conteúdo">Ocultar Conteúdo</button>
+                <button id="close-overlay" aria-label="Close Overlay">✕</button>
             </div>
         </div>
         <div class="content" id="main-content">
@@ -372,6 +257,7 @@
                 <p>Espero aprender metodologias para tornar iniciativas mais impactantes e inovadoras.</p>
             </section>
 
+            </section>
             <section id="menu4-section" class="menu-section" style="display:none;">
                 <h2>Reflexão</h2>
                 <p>Conhecer e me encantar com o Conway Game of Life (Jogo da Vida), tema do site, facilitou meu
@@ -415,18 +301,9 @@
         <div id="menu-buttons" style="display:none;">
             <button id="btn-invert" aria-label="Invert Colors">Invert</button>
             <button id="btn-play" aria-label="Play/Pause">Pause</button>
-            <button id="btn-speedup" aria-label="Increase Speed">+ speed</button>
-            <button id="btn-speeddown" aria-label="Decrease Speed">- speed</button>
+            <button id="btn-speedup" aria-label="Increase Speed">+</button>
+            <button id="btn-speeddown" aria-label="Decrease Speed">-</button>
             <button id="btn-random" aria-label="Randomize Grid">Random</button>
-            <button id="btn-glider" aria-label="Glider" title="Glider">
-                <img src="images/glider-small.png" alt="Glider" style="width:24px;height:24px;">
-            </button>
-            <button id="btn-lwss" aria-label="LWSS" title="Lightweight Spaceship">
-                <img src="images/lwss-small.png" alt="LWSS" style="width:28px;height:28px;">
-            </button>
-            <button id="btn-copperhead" aria-label="Copperhead" title="Copperhead">
-                <img src="images/copperhead-small.png" alt="Copperhead" style="width:32px;height:32px;">
-            </button>
             <button id="btn-refresh" aria-label="Refresh Page">Refresh</button>
         </div>
     </div>
@@ -661,71 +538,6 @@
         running = true;
         start();
         updatePlayPauseBtn();
-
-        function injectPatternRandom(patternName) {
-            let pattern, width, height;
-
-            if (patternName === 'glider') {
-                pattern = [[0, 1, 0], [0, 0, 1], [1, 1, 1]];
-                width = 3; height = 3;
-            }
-            else if (patternName === 'lwss') {
-                // RLE OFICIAL: bo2bo$o4b$o3bo$4o! = 5x4
-                pattern = [
-                    [0, 1, 0, 0, 1],  // 01001
-                    [1, 0, 0, 0, 0],  // 1 (padded)
-                    [1, 0, 0, 0, 1],  // 10001
-                    [1, 1, 1, 1, 0]   // 1111 (padded)
-                ];
-                width = 5; height = 4;
-            }
-            else if (patternName === 'copperhead') {
-                // RLE OFICIAL 8x12: b2o2b2o$3b2o$3b2o$obo2bobo$o6bo2$o6bo$b2o2b2o$2b4o2$3b2o$3b2o!
-                pattern = [
-                    [0, 1, 1, 0, 0, 1, 1, 0],  // 01100110
-                    [0, 0, 0, 1, 1, 0, 0, 0],  // 00011000
-                    [0, 0, 0, 1, 1, 0, 0, 0],  // 00011000
-                    [1, 0, 1, 0, 0, 1, 0, 1],  // 10100101
-                    [1, 0, 0, 0, 0, 0, 0, 1],  // 10000001
-                    [0, 0, 0, 0, 0, 0, 0, 0],  // 00000000
-                    [1, 0, 0, 0, 0, 0, 0, 1],  // 10000001
-                    [0, 1, 1, 0, 0, 1, 1, 0],  // 01100110
-                    [0, 0, 1, 1, 1, 1, 0, 0],  // 00111100
-                    [0, 0, 0, 0, 0, 0, 0, 0],  // 00000000
-                    [0, 0, 0, 1, 1, 0, 0, 0],  // 00011000
-                    [0, 0, 0, 1, 1, 0, 0, 0]   // 00011000
-                ];
-                width = 8; height = 12;
-            }
-
-            // Posição aleatória LIBERAL
-            const margin = 1;
-            const maxX = Math.max(1, cols - width);
-            const maxY = Math.max(1, rows - height);
-            const startX = margin + Math.floor(Math.random() * maxX);
-            const startY = margin + Math.floor(Math.random() * maxY);
-
-            // INJETAR sobre grid atual
-            for (let y = 0; y < height; y++) {
-                for (let x = 0; x < width; x++) {
-                    if (pattern[y][x] === 1) {
-                        const gridY = startY + y;
-                        const gridX = startX + x;
-                        if (gridY >= 0 && gridY < rows && gridX >= 0 && gridX < cols) {
-                            grid[gridY][gridX] = 1;
-                        }
-                    }
-                }
-            }
-            drawGrid();
-        }
-
-
-        // Event listeners
-        document.getElementById('btn-glider').addEventListener('click', () => injectPatternRandom('glider'));
-        document.getElementById('btn-lwss').addEventListener('click', () => injectPatternRandom('lwss'));
-        document.getElementById('btn-copperhead').addEventListener('click', () => injectPatternRandom('copperhead'));
-
 
         // Responsive canvas
         window.addEventListener('resize', () => {
