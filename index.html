@@ -468,8 +468,7 @@
                 randomizeGrid();
             }
         });
-
-        // NOVAS FUNÇÕES DE PADRÕES - TESTADAS E FUNCIONAIS
+        // INJEÇÃO SOBRE GRID ATUAL - SEM LIMPAR
         function injectPatternRandom(patternName) {
             let pattern, width, height;
 
@@ -505,30 +504,25 @@
                 width = 8; height = 12;
             }
 
-            // Limpa grid
-            for (let i = 0; i < rows; i++) {
-                for (let j = 0; j < cols; j++) {
-                    grid[i][j] = 0;
-                }
-            }
-
             const margin = 2;
             const startX = margin + Math.floor(Math.random() * (cols - width - margin * 2));
             const startY = margin + Math.floor(Math.random() * (rows - height - margin * 2));
 
+            // SOBREPÕE NO GRID ATUAL (SEM LIMPAR)
             for (let y = 0; y < height; y++) {
                 for (let x = 0; x < width; x++) {
                     if (pattern[y][x] === 1) {
                         const gridY = startY + y;
                         const gridX = startX + x;
                         if (gridY >= 0 && gridY < rows && gridX >= 0 && gridX < cols) {
-                            grid[gridY][gridX] = 1;
+                            grid[gridY][gridX] = 1;  // ← SÓ MUDA ONDE TEM 1
                         }
                     }
                 }
             }
             drawGrid();
         }
+
 
 
         // Menu button logic
