@@ -164,6 +164,9 @@
         @media (max-width: 600px) {
             .content {
                 padding-top: 80px !important;
+                width: 95vw !important;
+                max-width: none !important;
+                margin: 0 auto !important;
             }
 
             .menu-section h2 {
@@ -178,14 +181,18 @@
 
         @media (max-width: 480px) {
             #top-menu-buttons {
-                right: -8px;
+                right: 8px;
+                /* ← +8px em vez de -8px */
                 width: 170px;
                 top: 52px;
             }
 
             .content {
-                margin-left: 20px !important;
-                margin-right: 20px !important;
+                margin: 0 12px !important;
+                /* ← margin uniforme */
+                width: calc(100vw - 24px) !important;
+                /* ← Largura total menos margens */
+                max-width: none !important;
             }
         }
 
