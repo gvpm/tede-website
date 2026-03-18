@@ -252,10 +252,11 @@
                 <div style="text-align: center; margin-top: 2em;">
                     <img src="images/me.png" alt="Guilherme Magalhães"
                         style="max-width: 300px; height: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.2); border-radius: 8px;">
-               
-                <div style="text-align: center; margin-top: 1em; font-size: 0.9em; opacity: 0.8;">
-    <span>🎨</span> Arte por <a href="https://www.instagram.com/brunopixels/" target="_blank" class="publication-link">@brunopixels</a>
-</div>
+
+                    <div style="text-align: center; margin-top: 1em; font-size: 0.9em; opacity: 0.8;">
+                        <span>🎨</span> Arte por <a href="https://www.instagram.com/brunopixels/" target="_blank"
+                            class="publication-link">@brunopixels</a>
+                    </div>
                 </div>
             </section>
 
@@ -354,9 +355,9 @@
 
                 </div>
 
-<div style="text-align: center; margin-top: 2em; padding-top: 1em; font-size: 0.95em; opacity: 0.85;">
-    <span style="font-size: 1.1em;">🎨</span> Arte por <span style="font-weight: 500;">@samuczt</span>
-</div>
+                <div style="text-align: center; margin-top: 2em; padding-top: 1em; font-size: 0.95em; opacity: 0.85;">
+                    <span style="font-size: 1.1em;">🎨</span> Arte por <span style="font-weight: 500;">@samuczt</span>
+                </div>
             </section>
 
             </section>
@@ -442,87 +443,87 @@
         let inverted = false;
 
         // RLE Parser - converts string to matrix like glider/lwss
-function parseRLE(rle) {
-    // Remove comments (# lines), whitespace, and trailing ! - JOIN ALL LINES
-    let clean = rle
-        .replace(/#.*/g, '')           // Remove # comments
-        .replace(/[\s\n\r]+/g, '')     // Remove ALL whitespace/newlines  
-        .replace(/!+$/, '')            // Remove trailing !
-        .trim();
-    
-    let pattern = [];
-    let x = 0, y = 0;
-    let i = 0;
-    
-    while (i < clean.length) {
-        // Parse number
-        let num = '';
-        while (i < clean.length && /\d/.test(clean[i])) {
-            num += clean[i];
-            i++;
-        }
-        let count = num ? parseInt(num) : 1;
-        
-        if (i >= clean.length) break;
-        
-        let char = clean[i];
-        i++;
-        
-        if (char === 'b') {
-            x += count;
-        } else if (char === 'o') {
-            if (!pattern[y]) pattern[y] = [];
-            for (let k = 0; k < count; k++) {
-                pattern[y][x] = 1;
-                x++;
-            }
-        } else if (char === '$') {
-            y += count;
-            x = 0;
-        }
-    }
-    
-    // Convert to dense matrix like your glider patterns
-    let height = pattern.length;
-    if (height === 0) return null;
-    
-    let width = 0;
-    for (let row of pattern) {
-        if (row) width = Math.max(width, row.length);
-    }
-    
-    let matrix = Array(height).fill().map(() => Array(width).fill(0));
-    for (let py = 0; py < height; py++) {
-        for (let px = 0; px < width; px++) {
-            matrix[py][px] = pattern[py] && pattern[py][px] === 1 ? 1 : 0;
-        }
-    }
-    
-    return { pattern: matrix, width, height };
-}
+        function parseRLE(rle) {
+            // Remove comments (# lines), whitespace, and trailing ! - JOIN ALL LINES
+            let clean = rle
+                .replace(/#.*/g, '')           // Remove # comments
+                .replace(/[\s\n\r]+/g, '')     // Remove ALL whitespace/newlines  
+                .replace(/!+$/, '')            // Remove trailing !
+                .trim();
 
+            let pattern = [];
+            let x = 0, y = 0;
+            let i = 0;
 
-// Inject RLE - same as injectPatternRandom
-function injectRLE(rleString) {
-    const parsed = parseRLE(rleString);
-    if (!parsed) { alert('Invalid RLE! Must end with !'); return; }
-    const {pattern, width, height} = parsed;
-    const margin = 2;
-    const startX = margin + Math.floor(Math.random() * (cols - width - margin*2));
-    const startY = margin + Math.floor(Math.random() * (rows - height - margin*2));
-    for (let y = 0; y < height; y++) {
-        for (let x = 0; x < width; x++) {
-            if (pattern[y][x] === 1) {
-                const gridY = startY + y;
-                const gridX = startX + x;
-                if (gridY >= 0 && gridY < rows && gridX >= 0 && gridX < cols) {
-                    grid[gridY][gridX] = 1;
+            while (i < clean.length) {
+                // Parse number
+                let num = '';
+                while (i < clean.length && /\d/.test(clean[i])) {
+                    num += clean[i];
+                    i++;
+                }
+                let count = num ? parseInt(num) : 1;
+
+                if (i >= clean.length) break;
+
+                let char = clean[i];
+                i++;
+
+                if (char === 'b') {
+                    x += count;
+                } else if (char === 'o') {
+                    if (!pattern[y]) pattern[y] = [];
+                    for (let k = 0; k < count; k++) {
+                        pattern[y][x] = 1;
+                        x++;
+                    }
+                } else if (char === '$') {
+                    y += count;
+                    x = 0;
                 }
             }
+
+            // Convert to dense matrix like your glider patterns
+            let height = pattern.length;
+            if (height === 0) return null;
+
+            let width = 0;
+            for (let row of pattern) {
+                if (row) width = Math.max(width, row.length);
+            }
+
+            let matrix = Array(height).fill().map(() => Array(width).fill(0));
+            for (let py = 0; py < height; py++) {
+                for (let px = 0; px < width; px++) {
+                    matrix[py][px] = pattern[py] && pattern[py][px] === 1 ? 1 : 0;
+                }
+            }
+
+            return { pattern: matrix, width, height };
         }
-    }
-    drawGrid();
-}
+
+
+        // Inject RLE - same as injectPatternRandom
+        function injectRLE(rleString) {
+            const parsed = parseRLE(rleString);
+            if (!parsed) { alert('Invalid RLE! Must end with !'); return; }
+            const { pattern, width, height } = parsed;
+            const margin = 2;
+            const startX = margin + Math.floor(Math.random() * (cols - width - margin * 2));
+            const startY = margin + Math.floor(Math.random() * (rows - height - margin * 2));
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    if (pattern[y][x] === 1) {
+                        const gridY = startY + y;
+                        const gridX = startX + x;
+                        if (gridY >= 0 && gridY < rows && gridX >= 0 && gridX < cols) {
+                            grid[gridY][gridX] = 1;
+                        }
+                    }
+                }
+            }
+            drawGrid();
+        }
 
         function drawGrid() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -781,11 +782,11 @@ document.getElementById('btn-refresh').addEventListener('click', () => {
             clearGrid();
         });
 
-document.getElementById('btn-rle').addEventListener('click', () => {
-    const rle = prompt('Paste RLE pattern:\n\nCancel to close.');
-    if (rle === null) return;
-    injectRLE(rle);
-});
+        document.getElementById('btn-rle').addEventListener('click', () => {
+            const rle = prompt('Paste RLE pattern:\n\nCancel to close.');
+            if (rle === null) return;
+            injectRLE(rle);
+        });
 
         function updatePlayPauseBtn() {
             const btn = document.getElementById('btn-play');
@@ -849,14 +850,14 @@ document.getElementById('btn-rle').addEventListener('click', () => {
         });
     </script>
     <!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-8RPEXJ7F7V"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-8RPEXJ7F7V');
-</script>
-<!-- Fim Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-8RPEXJ7F7V"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-8RPEXJ7F7V');
+    </script>
+    <!-- Fim Google Analytics -->
 </body>
 
 </html>
